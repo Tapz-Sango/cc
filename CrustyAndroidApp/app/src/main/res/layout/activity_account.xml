@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0A0D14">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavWrapper">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp">
+
+            <ImageView
+                android:id="@+id/ivAccLogo"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/app_logo"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/tvAccBrandTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="THE CRUSTY CRAB"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@+id/ivAccLogo"
+                app:layout_constraintStart_toEndOf="@+id/ivAccLogo"
+                android:layout_marginStart="12dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MONTGOMERY PARK • RANDBURG"
+                android:textColor="#3B5EFE"
+                android:textSize="10sp"
+                android:letterSpacing="0.1"
+                app:layout_constraintTop_toBottomOf="@+id/tvAccBrandTitle"
+                app:layout_constraintStart_toStartOf="@+id/tvAccBrandTitle" />
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_button_primary"
+                android:padding="8dp"
+                android:src="@drawable/ic_back"
+                app:tint="#FFFFFF"
+                app:layout_constraintTop_toTopOf="@+id/ivAccLogo"
+                app:layout_constraintBottom_toBottomOf="@+id/ivAccLogo"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card_dark"
+                android:padding="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/ivAccLogo"
+                android:layout_marginTop="32dp">
+
+                <TextView
+                    android:id="@+id/tvAvatar"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/bg_circle_avatar"
+                    tools:text="JB"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tvProfileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="James Bond"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="@+id/tvAvatar"
+                    app:layout_constraintBottom_toTopOf="@+id/tvProfileEmail"
+                    app:layout_constraintStart_toEndOf="@+id/tvAvatar"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintVertical_chainStyle="packed"/>
+
+                <TextView
+                    android:id="@+id/tvProfileEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="james@email.com"
+                    android:textColor="#8A8F9E"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvProfileName"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvAvatar"
+                    app:layout_constraintStart_toStartOf="@+id/tvProfileName"
+                    android:layout_marginTop="2dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/llStats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:baselineAligned="false"
+                app:layout_constraintTop_toBottomOf="@+id/cardProfile"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_card_dark"
+                    android:paddingVertical="16dp"
+                    android:gravity="center"
+                    android:layout_marginEnd="8dp">
+                    <TextView
+                        android:id="@+id/tvOrdersCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="8"
+                        android:textColor="#FFFFFF"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Orders"
+                        android:textColor="#8A8F9E"
+                        android:textSize="12sp"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_card_dark"
+                    android:paddingVertical="16dp"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="4dp">
+                    <TextView
+                        android:id="@+id/tvFavoritesCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="4"
+                        android:textColor="#FFFFFF"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Favorites"
+                        android:textColor="#8A8F9E"
+                        android:textSize="12sp"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_card_dark"
+                    android:paddingVertical="16dp"
+                    android:gravity="center"
+                    android:layout_marginStart="8dp">
+                    <TextView
+                        android:id="@+id/tvReviewsCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="6"
+                        android:textColor="#FFFFFF"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reviews"
+                        android:textColor="#8A8F9E"
+                        android:textSize="12sp"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/llStats"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Order History"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:drawableStart="@drawable/ic_back"
+                    android:drawablePadding="16dp"
+                    android:drawableTint="#8A8F9E"
+                    android:paddingVertical="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Favorites"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:drawableStart="@drawable/ic_back"
+                    android:drawablePadding="16dp"
+                    android:drawableTint="#8A8F9E"
+                    android:paddingVertical="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Delivery Address"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:drawableStart="@drawable/ic_back"
+                    android:drawablePadding="16dp"
+                    android:drawableTint="#8A8F9E"
+                    android:paddingVertical="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Payment Methods"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:drawableStart="@drawable/ic_back"
+                    android:drawablePadding="16dp"
+                    android:drawableTint="#8A8F9E"
+                    android:paddingVertical="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Notifications"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:drawableStart="@drawable/ic_back"
+                    android:drawablePadding="16dp"
+                    android:drawableTint="#8A8F9E"
+                    android:paddingVertical="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Help &amp; Support"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:drawableStart="@drawable/ic_back"
+                    android:drawablePadding="16dp"
+                    android:drawableTint="#8A8F9E"
+                    android:paddingVertical="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Logout"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:drawableStart="@drawable/ic_back"
+                    android:drawablePadding="16dp"
+                    android:drawableTint="#FF3B3B"
+                    android:paddingVertical="16dp"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottomNavWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:orientation="horizontal"
+        android:background="#0F131D"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Home"
+            android:textColor="#8A8F9E"
+            android:textSize="10sp"
+            android:textAlignment="center"
+            android:drawableTop="@drawable/ic_home"
+            android:drawableTint="#8A8F9E"
+            android:drawablePadding="4dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Menu"
+            android:textColor="#8A8F9E"
+            android:textSize="10sp"
+            android:textAlignment="center"
+            android:drawableTop="@drawable/ic_menu"
+            android:drawableTint="#8A8F9E"
+            android:drawablePadding="4dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cart"
+            android:textColor="#8A8F9E"
+            android:textSize="10sp"
+            android:textAlignment="center"
+            android:drawableTop="@drawable/ic_cart"
+            android:drawableTint="#8A8F9E"
+            android:drawablePadding="4dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tracker"
+            android:textColor="#8A8F9E"
+            android:textSize="10sp"
+            android:textAlignment="center"
+            android:drawableTop="@drawable/ic_tracker"
+            android:drawableTint="#8A8F9E"
+            android:drawablePadding="4dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Account"
+            android:textColor="#3B5EFE"
+            android:textSize="10sp"
+            android:textAlignment="center"
+            android:drawableTop="@drawable/ic_account"
+            android:drawableTint="#3B5EFE"
+            android:drawablePadding="4dp"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
