@@ -6,6 +6,16 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <!-- welcome_message -->
+    <string name="welcome_message">Welcome, %1$s!</string>
+
+    <!-- Account Profile Strings -->
+    <string name="profile_name">Tapiwa Sango</string>
+    <string name="profile_email">tapiwa@crustycrab.co.za</string>
+    <string name="profile_initials">TS</string>
+    <string name="profile_orders_count">8</string>
+    <string name="profile_favorites_count">4</string>
+    <string name="profile_reviews_count">6</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
