@@ -1,0 +1,47 @@
+name: CrustyAPI CI/CD
+
+on:
+  push:
+    branches:
+      - CrustyAPI
+  pull_request:
+    branches:
+      - CrustyAPI
+
+env:
+  DOTNET_VERSION: '10.0.x'
+  API_PROJECT: './CrustyAPI/CrustyAPI.csproj'
+  TEST_PROJECT: './CrustyAPI.Tests/CrustyAPI.Tests.csproj'
+  AZURE_WEBAPP_NAME: 'crusty-crab-api-tameez'
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore ${{ env.API_PROJECT }}
+
+      - name: Build
+        run: dotnet build ${{ env.API_PROJECT }} --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test ${{ env.TEST_PROJECT }} --configuration Release
+
+      - name: Publish API
+        run: dotnet publish ${{ env.API_PROJECT }} --configuration Release --output ./publish
+
+      - name: Deploy to Azure
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./publish

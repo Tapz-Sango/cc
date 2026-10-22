@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CrustyAPI.Tests/CrustyAPI.Tests.csproj" Id="4b622fdb-a17e-47b7-813b-d8bfa57e3376" />
+  <Project Path="CrustyAPI/CrustyAPI.csproj" />
+</Solution>

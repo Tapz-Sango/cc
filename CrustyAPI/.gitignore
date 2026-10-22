@@ -1,0 +1,13 @@
+# Visual Studio
+.vs/
+bin/
+obj/
+
+# Publish profiles
+**/Properties/PublishProfiles/
+# cs proj
+*.csproj.user
+# Temporary files
+*.tmp
+# Local configuration
+**/appsettings.json
