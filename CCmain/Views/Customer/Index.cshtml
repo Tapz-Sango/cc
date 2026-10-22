@@ -1,0 +1,457 @@
+@model CrustyCrab.Models.AccountViewModel
+
+@{
+    ViewData["Title"] = "My Account";
+}
+
+<div class="portal-wrap">
+    <div class="kds-head" style="margin-bottom:0">
+        <div>
+            <span class="eyebrow">Customer Account</span>
+            <h1>Hello, @Model.Customer.FirstName</h1>
+        </div>
+        <span class="location-chip mono">Customer #@Model.Customer.CustomerID</span>
+    </div>
+
+    @if (TempData["Error"] is string error)
+    {
+        <div class="api-error" style="margin-top:24px">@error</div>
+    }
+
+    @if (TempData["Success"] is string success)
+    {
+        <div class="success-note" style="margin-top:24px">@success</div>
+    }
+
+    <div class="portal-grid" style="margin-top:24px;">
+        <div class="portal-card">
+            <h3>Profile</h3>
+
+            <form asp-action="UpdateProfile" method="post">
+                <div class="field-row">
+                    <div class="field">
+                        <label>First Name</label>
+                        <input name="FirstName" value="@Model.Customer.FirstName" required />
+                    </div>
+                    <div class="field">
+                        <label>Last Name</label>
+                        <input name="LastName" value="@Model.Customer.LastName" required />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Email</label>
+                    <input name="EmailAddress" type="email" value="@Model.Customer.EmailAddress" required />
+                </div>
+
+                <div class="field">
+                    <label>Phone</label>
+                    <input name="PhoneNumber" value="@Model.Customer.PhoneNumber" required />
+                </div>
+
+                <button class="btn-blue" type="submit">Save Profile</button>
+            </form>
+        </div>
+
+        <div class="portal-card">
+            <h3>Delivery Addresses</h3>
+
+            @foreach (var address in Model.Addresses)
+            {
+                <div class="portal-card" style="margin-top:12px;">
+                    <form asp-controller="DeliveryAddress"
+                          asp-action="UpdateForm"
+                          method="post">
+
+                        <input type="hidden" name="id" value="@address.DeliveryAddressID" />
+
+                        <div class="field-row">
+                            <div class="field">
+                                <label>House Number</label>
+                                <input name="HouseNumber"
+                                       value="@address.HouseNumber"
+                                       class="address-house"
+                                       autocomplete="off"
+                                       required />
+                            </div>
+
+                            <div class="field">
+                                <label>Street Name</label>
+                                <input name="StreetName"
+                                       value="@address.StreetName"
+                                       class="address-street"
+                                       autocomplete="off"
+                                       required />
+                            </div>
+                        </div>
+
+                        <div class="field-row">
+                            <div class="field">
+                                <label>Suburb</label>
+                                <input name="Suburb"
+                                       value="@address.Suburb"
+                                       class="address-suburb"
+                                       autocomplete="off"
+                                       required />
+                            </div>
+
+                            <div class="field">
+                                <label>Building Type</label>
+                                <input name="BuildingType" value="@address.BuildingType" />
+                            </div>
+                        </div>
+
+                        <div class="address-suggestions"></div>
+
+                        <button class="btn-blue" type="submit">Save Address</button>
+                    </form>
+
+                    <form asp-controller="DeliveryAddress"
+                          asp-action="DeleteForm"
+                          method="post"
+                          style="margin-top:10px;">
+
+                        <input type="hidden" name="id" value="@address.DeliveryAddressID" />
+
+                        <button class="stock-btn out" type="submit">Remove Address</button>
+                    </form>
+                </div>
+            }
+
+            <form asp-controller="DeliveryAddress"
+                  asp-action="CreateForm"
+                  method="post"
+                  style="margin-top:16px;">
+
+                <div class="field-row">
+                    <div class="field">
+                        <label>House Number</label>
+                        <input name="HouseNumber"
+                               class="address-house"
+                               autocomplete="off"
+                               required />
+                    </div>
+
+                    <div class="field">
+                        <label>Street Name</label>
+                        <input name="StreetName"
+                               class="address-street"
+                               autocomplete="off"
+                               required />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Suburb</label>
+                    <input name="Suburb"
+                           class="address-suburb"
+                           autocomplete="off"
+                           required />
+                </div>
+
+                <div class="address-suggestions"></div>
+
+                <div class="field">
+                    <label>Building Type</label>
+                    <input name="BuildingType" placeholder="House, Apartment, Office" />
+                </div>
+
+                <button class="btn-blue" type="submit">Add Address</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="portal-grid" style="margin-top:24px;">
+        <div class="portal-card">
+            <h3>Saved Payment Methods</h3>
+
+            @foreach (var method in Model.SavedPaymentMethods)
+            {
+                <div class="stock-row">
+                    <div>
+                        <strong>@method.MethodName</strong>
+                        <small>
+                            @method.CardholderName · **** @method.CardLast4 ·
+                            @method.ExpiryMonth/@method.ExpiryYear
+                        </small>
+                    </div>
+
+                    <form asp-controller="Payment"
+                          asp-action="DeleteCustomerMethodForm"
+                          method="post">
+
+                        <input type="hidden"
+                               name="id"
+                               value="@method.CustomerPaymentMethodID" />
+
+                        <button class="stock-btn out" type="submit">Remove</button>
+                    </form>
+                </div>
+            }
+
+            <form asp-controller="Payment"
+                  asp-action="SaveCustomerMethodForm"
+                  method="post"
+                  style="margin-top:16px;">
+
+                <div class="field">
+                    <label>Payment Method</label>
+                    <select name="PaymentMethodID" required>
+                        <option value="">Select</option>
+                        @foreach (var method in Model.PaymentMethods)
+                        {
+                            <option value="@method.PaymentMethodID">@method.MethodName</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Cardholder Name</label>
+                    <input name="CardholderName" required />
+                </div>
+
+                <div class="field">
+                    <label>Card Number</label>
+                    <input name="CardNumber"
+                           inputmode="numeric"
+                           minlength="13"
+                           maxlength="16"
+                           required />
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label>Expiry Month</label>
+                        <input name="ExpiryMonth" type="number" min="1" max="12" required />
+                    </div>
+
+                    <div class="field">
+                        <label>Expiry Year</label>
+                        <input name="ExpiryYear" type="number" min="2026" max="2100" required />
+                    </div>
+                </div>
+
+                <button class="btn-blue" type="submit">Save Payment Method</button>
+            </form>
+        </div>
+
+        <div class="portal-card">
+            <h3>Order History</h3>
+
+            @foreach (var order in Model.Orders.OrderByDescending(o => o.OrderDate))
+            {
+                <div class="stock-row">
+                    <div>
+                        <strong>Order #@order.OrderID</strong>
+                        <small>
+                            @order.OrderDate.ToLocalTime().ToString("dd MMM yyyy HH:mm")
+                            · @order.DeliveryMethod
+                        </small>
+                    </div>
+
+                    <div style="text-align:right">
+                        <strong>R @order.TotalAmount.ToString("N2")</strong>
+                        <small>@order.OrderStatus</small>
+                    </div>
+                </div>
+
+                @if (!string.Equals(order.OrderStatus, "Cancelled", StringComparison.OrdinalIgnoreCase)
+                    && !string.Equals(order.OrderStatus, "Completed", StringComparison.OrdinalIgnoreCase))
+                {
+                    <form asp-controller="Order"
+                          asp-action="CancelForm"
+                          method="post"
+                          style="margin-bottom:10px;">
+
+                        <input type="hidden" name="id" value="@order.OrderID" />
+                        <input type="hidden" name="customerId" value="@Model.Customer.CustomerID" />
+
+                        <button class="stock-btn out" type="submit">Cancel Order</button>
+                    </form>
+                }
+            }
+
+            @if (!Model.Orders.Any())
+            {
+                <p class="muted">No orders yet.</p>
+            }
+        </div>
+    </div>
+
+    <div class="portal-card" style="margin-top:24px;">
+        <h3>Account Management</h3>
+
+        <form asp-action="DeleteAccount"
+              method="post"
+              onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+
+            <button class="stock-btn out" type="submit">
+                Delete Account
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const addressForms = document.querySelectorAll(
+            'form[asp-action="CreateForm"], form[asp-action="UpdateForm"]'
+        );
+
+        // The ASP.NET tag helpers may remove asp-action from rendered HTML.
+        // Use the generated form action URL instead.
+        const forms = Array.from(document.querySelectorAll("form")).filter(form => {
+            const action = form.getAttribute("action") || "";
+            return action.includes("/DeliveryAddress/CreateForm") ||
+                   action.includes("/DeliveryAddress/UpdateForm");
+        });
+
+        forms.forEach(form => {
+            const houseInput = form.querySelector(".address-house");
+            const streetInput = form.querySelector(".address-street");
+            const suburbInput = form.querySelector(".address-suburb");
+            const suggestionsBox = form.querySelector(".address-suggestions");
+
+            if (!houseInput || !streetInput || !suburbInput || !suggestionsBox) {
+                return;
+            }
+
+            let debounceTimer;
+            let activeRequest = 0;
+
+            // Put the suggestion list directly below the address fields.
+            suggestionsBox.style.position = "relative";
+
+            const list = document.createElement("div");
+            list.style.display = "none";
+            list.style.position = "absolute";
+            list.style.left = "0";
+            list.style.right = "0";
+            list.style.top = "0";
+            list.style.zIndex = "1000";
+            list.style.background = "white";
+            list.style.color = "#222";
+            list.style.border = "1px solid #ccc";
+            list.style.borderRadius = "6px";
+            list.style.boxShadow = "0 4px 12px rgba(0,0,0,0.12)";
+            list.style.maxHeight = "220px";
+            list.style.overflowY = "auto";
+            suggestionsBox.appendChild(list);
+
+            function closeSuggestions() {
+                list.style.display = "none";
+                list.replaceChildren();
+            }
+
+            function addSuggestion(suggestion) {
+                const item = document.createElement("button");
+                item.type = "button";
+                item.textContent = suggestion.formatted || "Address suggestion";
+                item.style.display = "block";
+                item.style.width = "100%";
+                item.style.padding = "10px 12px";
+                item.style.textAlign = "left";
+                item.style.border = "0";
+                item.style.borderBottom = "1px solid #eee";
+                item.style.background = "white";
+                item.style.color = "#222";
+                item.style.cursor = "pointer";
+
+                item.addEventListener("mouseenter", () => {
+                    item.style.background = "#f2f2f2";
+                });
+
+                item.addEventListener("mouseleave", () => {
+                    item.style.background = "white";
+                });
+
+                item.addEventListener("click", () => {
+                    // Only replace the house number when Geoapify supplies one.
+                    if (suggestion.houseNumber) {
+                        houseInput.value = suggestion.houseNumber;
+                    }
+
+                    if (suggestion.street) {
+                        streetInput.value = suggestion.street;
+                    }
+
+                    if (suggestion.suburb) {
+                        suburbInput.value = suggestion.suburb;
+                    } else if (suggestion.city) {
+                        suburbInput.value = suggestion.city;
+                    }
+
+                    closeSuggestions();
+                });
+
+                list.appendChild(item);
+            }
+
+            async function searchAddresses(query) {
+                const requestId = ++activeRequest;
+
+                try {
+                    const response = await fetch(
+                        `/DeliveryAddress/SearchAddressSuggestions?q=${encodeURIComponent(query)}`,
+                        {
+                            headers: {
+                                "Accept": "application/json"
+                            }
+                        }
+                    );
+
+                    if (!response.ok) {
+                        closeSuggestions();
+                        return;
+                    }
+
+                    const suggestions = await response.json();
+
+                    // Ignore results from an older search.
+                    if (requestId !== activeRequest) {
+                        return;
+                    }
+
+                    list.replaceChildren();
+
+                    if (!Array.isArray(suggestions) || suggestions.length === 0) {
+                        closeSuggestions();
+                        return;
+                    }
+
+                    suggestions.forEach(addSuggestion);
+                    list.style.display = "block";
+                } catch (error) {
+                    console.error("Address autocomplete failed:", error);
+                    closeSuggestions();
+                }
+            }
+
+            // Search using the street and suburb fields.
+            function handleAddressInput() {
+                clearTimeout(debounceTimer);
+
+                const query = `${streetInput.value} ${suburbInput.value}`.trim();
+
+                if (query.length < 3) {
+                    activeRequest++;
+                    closeSuggestions();
+                    return;
+                }
+
+                debounceTimer = setTimeout(() => {
+                    searchAddresses(query);
+                }, 300);
+            }
+
+            streetInput.addEventListener("input", handleAddressInput);
+            suburbInput.addEventListener("input", handleAddressInput);
+
+            document.addEventListener("click", function (event) {
+                if (!form.contains(event.target)) {
+                    closeSuggestions();
+                }
+            });
+        });
+    });
+</script>

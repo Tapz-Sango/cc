@@ -1,0 +1,57 @@
+﻿<div class="narrow stack-top">
+    <div class="card-panel review-card">
+        <span class="eyebrow">Customer Review Suite</span>
+        <h2>How was your seafood boil?</h2>
+
+    @if (TempData["Error"] is string error)
+    {
+        <div class="api-error">@error</div>
+    }
+
+    @if (TempData["Success"] is string success)
+    {
+        <div class="success-note">@success</div>
+    }
+
+    <form asp-controller="Review" asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="field rating-field">
+            <label>Your Rating</label>
+
+            <div class="stars" role="radiogroup" aria-label="Rating from 1 to 5 stars">
+                @for (int i = 5; i >= 1; i--)
+                {
+                    <input type="radio"
+                           id="star-@i"
+                           name="rating"
+                           value="@i"
+                           required />
+                    <label for="star-@i" title="@i stars">&#9733;</label>
+                }
+            </div>
+        </div>
+
+        <div class="field feedback-field">
+            <label for="comment">Your Feedback</label>
+            <textarea id="comment"
+                      name="comment"
+                      rows="5"
+                      maxlength="2000"
+                      placeholder="Tell us about the Cajun garlic butter spice, portion sizes, or delivery speed..."
+                      required></textarea>
+        </div>
+
+        <button type="submit" class="btn-blue btn-block">
+            Submit Review
+        </button>
+
+        <a asp-controller="Home"
+           asp-action="Index"
+           class="btn-blue btn-block">
+            Return Home
+        </a>
+    </form>
+</div>
+
+</div>

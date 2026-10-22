@@ -1,0 +1,53 @@
+﻿@model CrustyCrab.Models.LoginRequest
+
+@{
+    ViewData["Title"] = "Manager Login";
+}
+
+
+
+<div class="narrow stack-top">
+    <div class="card-panel" style="max-width:520px;margin:0 auto;">
+
+        <span class="eyebrow">Restaurant Administration</span>
+
+        <h2>Manager Login</h2>
+
+        <p class="muted">
+            Sign in to access the Crusty Crab management portal.
+        </p>
+
+        @if (TempData["Error"] is string error)
+        {
+            <div class="api-error">@error</div>
+        }
+
+        <form asp-controller="Auth"
+              asp-action="Login"
+              method="post">
+
+            <input type="hidden" name="admin" value="true" />
+
+            <div class="field">
+                <label>Username</label>
+                <input asp-for="Identifier"
+                       required
+                       autocomplete="username" />
+            </div>
+
+            <div class="field">
+                <label>Password</label>
+                <input asp-for="Password"
+                       type="password"
+                       required
+                       autocomplete="current-password" />
+            </div>
+
+            <button type="submit" class="btn-blue btn-block">
+                Sign In
+            </button>
+
+        </form>
+
+    </div>
+</div>

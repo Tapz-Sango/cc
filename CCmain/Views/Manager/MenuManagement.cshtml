@@ -1,0 +1,195 @@
+﻿@model List<CrustyCrab.Models.ApiMenuItem>
+
+<div style="margin-top:40px;">
+
+    <!-- PAGE HEADING -->
+
+    <div style="
+        position:relative;
+        text-align:center;
+        margin-bottom:35px;
+        padding:0 180px;">
+
+        <span class="eyebrow">
+            US-08
+        </span>
+
+        <h2>
+            Menu Management
+        </h2>
+
+        <p class="muted">
+            Manage menu items and their availability.
+        </p>
+
+        <a asp-controller="Manager"
+           asp-action="AddMenuItem"
+           class="btn-blue"
+           style="
+               position:absolute;
+               right:0;
+               top:50%;
+               transform:translateY(-50%);">
+
+            + Add Menu Item
+
+        </a>
+
+    </div>
+
+
+    <!-- MENU CARDS -->
+
+    <div class="menu-grid">
+
+        @foreach (var item in Model)
+        {
+            <div class="menu-card">
+
+                <!-- IMAGE -->
+
+                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                {
+                    <img src="@item.ImageUrl"
+                         alt="@item.ItemName" />
+                }
+                else
+                {
+                    <div class="menu-image-placeholder">
+                        No Image
+                    </div>
+                }
+
+
+                <!-- ITEM DETAILS -->
+
+                <div style="padding:18px 0 0 0;">
+
+                    <div style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:flex-start;
+                        gap:10px;">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                @item.Category
+                            </span>
+
+                            <h3>
+                                @item.ItemName
+                            </h3>
+
+                        </div>
+
+                        @if (item.Availability)
+                        {
+                            <span class="location-chip">
+                                In Stock
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="location-chip"
+                                  style="opacity:.6;">
+
+                                Out of Stock
+
+                            </span>
+                        }
+
+                    </div>
+
+
+                    <p>
+                        @item.Description
+                    </p>
+
+
+                    <div class="price">
+                        R @item.Price.ToString("0.00")
+                    </div>
+
+
+                    <!-- STOCK -->
+
+                    <form asp-controller="Manager"
+                          asp-action="ToggleStock"
+                          method="post"
+                          style="margin-top:16px;">
+
+                        <input type="hidden"
+                               name="id"
+                               value="@item.MenuItemID" />
+
+                        <button type="submit"
+                                class="stock-btn @(item.Availability ? "" : "out")"
+                                style="width:100%;">
+
+                            @(item.Availability
+                                ? "✓ In Stock — Toggle"
+                                : "✕ Out of Stock — Toggle")
+
+                        </button>
+
+                    </form>
+
+
+                    <!-- EDIT / DELETE -->
+
+                    <div style="
+                        display:flex;
+                        gap:10px;
+                        margin-top:10px;">
+
+                        <a asp-controller="Menu"
+                           asp-action="Edit"
+                           asp-route-id="@item.MenuItemID"
+                           class="btn-blue"
+                           style="
+                               flex:1;
+                               text-align:center;">
+
+                            Edit
+
+                        </a>
+
+                        <form asp-controller="Menu"
+                              asp-action="DeleteForm"
+                              method="post"
+                              style="
+                                  flex:1;
+                                  margin:0;">
+
+                            <input type="hidden"
+                                   name="id"
+                                   value="@item.MenuItemID" />
+
+                            <button type="submit"
+                                    class="stock-btn out"
+                                    style="width:100%;">
+
+                                Delete
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+        @if (!Model.Any())
+        {
+            <div class="empty-note">
+                No menu items are currently available.
+            </div>
+        }
+
+    </div>
+
+</div>

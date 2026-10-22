@@ -1,0 +1,127 @@
+@model CrustyCrab.Models.ApiCart
+
+@{
+    ViewData["Title"] = "My Cart";
+}
+
+<div class="narrow stack-top">
+
+    <div class="card-panel">
+
+        <span class="eyebrow">
+            API Cart
+        </span>
+
+        <h2>
+            Your Cart
+        </h2>
+
+        @if (TempData["Error"] is string error)
+        {
+            <div class="api-error">
+                @error
+            </div>
+        }
+
+        @if (TempData["Success"] is string success)
+        {
+            <div class="success-note">
+                @success
+            </div>
+        }
+
+        @foreach (var item in Model.Items)
+        {
+            <div class="stock-row"
+                 style="padding:16px 0;">
+
+                <div>
+                    <strong>
+                        @item.ItemName
+                    </strong>
+
+                    <small>
+                        R @item.ItemPrice.ToString("N2") each
+                    </small>
+                </div>
+
+                <div style="display:flex;gap:8px;align-items:center;">
+
+                    <form asp-action="UpdateItem"
+                          method="post"
+                          style="display:flex;gap:6px;">
+
+                        <input type="hidden"
+                               name="cartItemId"
+                               value="@item.CartItemID" />
+
+                        <input name="quantity"
+                               type="number"
+                               min="1"
+                               value="@item.Quantity"
+                               style="width:70px;" />
+
+                        <button class="stock-btn"
+                                type="submit">
+                            Update
+                        </button>
+
+                    </form>
+
+                    <form asp-action="RemoveItem"
+                          method="post">
+
+                        <input type="hidden"
+                               name="cartItemId"
+                               value="@item.CartItemID" />
+
+                        <button class="stock-btn out"
+                                type="submit">
+                            Remove
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+        }
+
+        @if (!Model.Items.Any())
+        {
+            <div class="empty-note">
+                Your cart is empty. Add something from the menu.
+            </div>
+        }
+
+        <div class="stat-row"
+             style="margin-top:20px;">
+
+            <div class="stat rev">
+
+                <small>
+                    Cart Total
+                </small>
+
+                <strong>
+                    R @Model.TotalAmount.ToString("N2")
+                </strong>
+
+            </div>
+
+            <div style="display:flex;align-items:center;">
+
+                <a asp-controller="Checkout"
+                   asp-action="Index"
+                   asp-route-fromCart="true"
+                   class="btn-green">
+                    Proceed to Checkout
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

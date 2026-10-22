@@ -1,0 +1,104 @@
+﻿@model IEnumerable<CrustyCrab.Models.MenuItem>
+
+@{
+    ViewData["Title"] = "Our Signature Menu";
+    var currentCategory = ViewData["CurrentCategory"]?.ToString() ?? "All Items";
+}
+
+<div class="page-head">
+
+    <div class="page-head-inner">
+
+        <div>
+            <span class="eyebrow">
+                US-01 Category Filtering
+            </span>
+
+            <h1>
+                Our Signature Menu
+            </h1>
+        </div>
+
+        <div class="filter-group">
+
+            <a asp-action="Index"
+               asp-route-category="All Items"
+               class="@(currentCategory == "All Items" ? "active" : "")">
+                All Items
+            </a>
+
+            <a asp-action="Index"
+               asp-route-category="Boil Bags"
+               class="@(currentCategory == "Boil Bags" ? "active" : "")">
+                Boil Bags
+            </a>
+
+            <a asp-action="Index"
+               asp-route-category="Starters"
+               class="@(currentCategory == "Starters" ? "active" : "")">
+                Starters
+            </a>
+
+            <a asp-action="Index"
+               asp-route-category="Beverages"
+               class="@(currentCategory == "Beverages" ? "active" : "")">
+                Beverages
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+@if (TempData["Error"] is string menuError)
+{
+    <div class="page-head">
+        <div class="api-error">
+            @menuError
+        </div>
+    </div>
+}
+
+<div class="menu-grid">
+
+    @foreach (var item in Model)
+    {
+        <div class="menu-card">
+
+            @if (!string.IsNullOrEmpty(item.ImageUrl))
+            {
+                <img src="@item.ImageUrl"
+                     alt="@item.Name" />
+            }
+
+            <h3>
+                @item.Name
+            </h3>
+
+            <p>
+                @item.Description
+            </p>
+
+            <div class="price">
+                R @item.Price.ToString("0.00")
+            </div>
+
+            <a asp-action="Customise"
+               asp-route-id="@item.Id"
+               class="btn-blue">
+                + Customise / Add
+            </a>
+
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="empty-note">
+            @(ViewData["ApiError"]?.ToString()
+                ?? "No items in this category yet.")
+        </div>
+    }
+
+</div>

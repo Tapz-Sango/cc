@@ -1,0 +1,22 @@
+@model CrustyCrab.Models.CustomerRequest
+@{
+    ViewData["Title"] = "Create Account";
+}
+
+<div class="narrow stack-top">
+    <div class="card-panel" style="max-width:620px;margin:0 auto;">
+        <span class="eyebrow">Customer Account</span>
+        <h2>Create Your Account</h2>
+        <div asp-validation-summary="ModelOnly" class="api-error"></div>
+        <form asp-action="Register" method="post">
+            <div class="field-row">
+                <div class="field"><label>First Name</label><input asp-for="FirstName" required /></div>
+                <div class="field"><label>Last Name</label><input asp-for="LastName" required /></div>
+            </div>
+            <div class="field"><label>Email Address</label><input asp-for="EmailAddress" type="email" required /></div>
+            <div class="field"><label>Phone Number</label><input asp-for="PhoneNumber" required /></div>
+            <div class="field"><label>Password</label><input asp-for="Password" type="password" required /></div>
+            <button type="submit" class="btn-blue btn-block">Create Account</button>
+        </form>
+    </div>
+</div>

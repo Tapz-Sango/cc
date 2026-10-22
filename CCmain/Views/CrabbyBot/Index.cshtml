@@ -1,0 +1,41 @@
+@{
+    ViewData["Title"] = "CrabbyBot";
+}
+
+<div class="narrow stack-top">
+    <div class="card-panel">
+        <span class="eyebrow">Customer Assistant</span>
+        <h2>CrabbyBot</h2>
+        <div id="botMessage" class="empty-note" style="margin-bottom:18px;">Loading CrabbyBot...</div>
+        <div id="botOptions" style="display:grid;gap:10px;"></div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        async function askBot(optionId) {
+            const response = await fetch('@Url.Action("Respond", "CrabbyBot")', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ optionId })
+            });
+            if (!response.ok) {
+                document.getElementById('botMessage').textContent = 'CrabbyBot is unavailable right now.';
+                document.getElementById('botOptions').innerHTML = '';
+                return;
+            }
+            const data = await response.json();
+            document.getElementById('botMessage').textContent = data.message;
+            const options = document.getElementById('botOptions');
+            options.innerHTML = '';
+            data.options.forEach(option => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'btn-blue';
+                button.textContent = option.text;
+                button.addEventListener('click', () => askBot(option.id));
+                options.appendChild(button);
+            });
+        }
+        askBot('start');
+    </script>
+}

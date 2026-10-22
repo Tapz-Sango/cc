@@ -1,0 +1,450 @@
+@model CrustyCrab.Models.CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Checkout Suite";
+}
+
+<div class="narrow stack-top">
+
+    <div class="card-panel checkout-card">
+
+        <div class="checkout-head">
+            <div>
+                <span class="eyebrow">
+                    Secure Order Processing
+                </span>
+
+                <h2>
+                    Fulfillment &amp; Secure Payment
+                </h2>
+            </div>
+
+            <span class="ssl">
+                &#128274; 256-Bit SSL Encrypted
+            </span>
+        </div>
+
+        @if (TempData["Error"] is string checkoutError)
+        {
+            <div class="api-error">
+                @checkoutError
+            </div>
+        }
+
+        <form asp-action="AuthorizePayment"
+              method="post">
+
+            <input type="hidden"
+                   asp-for="MenuItemId" />
+
+            <input type="hidden"
+                   asp-for="SpiceLevel" />
+
+            <input type="hidden"
+                   asp-for="FromCart" />
+
+            @foreach (var addon in Model.Addons)
+            {
+                <input type="hidden"
+                       name="Addons"
+                       value="@addon" />
+            }
+
+            <div class="checkout-body">
+
+                <div>
+
+                    <h6 class="section-label">
+                        1. Fulfillment Method
+                    </h6>
+
+                    <div class="fulfil-row">
+
+                        <div>
+                            <input type="radio"
+                                   name="FulfillmentMethod"
+                                   id="c1"
+                                   value="Collection"
+                                   checked>
+
+                            <label for="c1">
+                                <strong>Collection</strong>
+                                <small>
+                                    Montgomery Park Store (Free)
+                                </small>
+                            </label>
+                        </div>
+
+                        <div>
+                            <input type="radio"
+                                   name="FulfillmentMethod"
+                                   id="c2"
+                                   value="Delivery">
+
+                            <label for="c2">
+                                <strong>Delivery</strong>
+                                <small>
+                                    Randburg Area (+R 50.00)
+                                </small>
+                            </label>
+                        </div>
+
+                    </div>
+
+                    @if (Model.Addresses.Any())
+                    {
+                        <div class="field"
+                             style="margin-top:18px;">
+
+                            <label>
+                                Delivery Address
+                            </label>
+
+                            <select asp-for="DeliveryAddressId">
+
+                                <option value="">
+                                    Select an address
+                                </option>
+
+                                @foreach (var address in Model.Addresses)
+                                {
+                                    <option value="@address.DeliveryAddressID">
+                                        @address.HouseNumber @address.StreetName, @address.Suburb
+                                    </option>
+                                }
+
+                            </select>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-note"
+                             style="margin-top:18px;">
+
+                            Sign in and add a delivery address in My Account
+                            to use delivery.
+
+                        </div>
+                    }
+
+                </div>
+
+                <div class="pay-panel">
+
+                    <div class="pay-head">
+
+                        <h4>
+                            Payment Gateway
+                        </h4>
+
+                        <span class="pay-icons">
+                            <i></i>
+                            <i></i>
+                        </span>
+
+                    </div>
+
+                    @if (Model.PaymentMethods.Any())
+                    {
+                        <div class="field">
+
+                            <label>
+                                Payment Method
+                            </label>
+
+                            <select asp-for="PaymentMethodId"
+                                    id="paymentMethod">
+
+                                @foreach (var method in Model.PaymentMethods)
+                                {
+                                    <option value="@method.PaymentMethodID">
+                                        @method.MethodName
+                                    </option>
+                                }
+
+                            </select>
+
+                        </div>
+                    }
+
+                    <div id="cardFields">
+
+                        @if (Model.SavedPaymentMethods.Any())
+                        {
+                            <div class="field">
+
+                                <label>
+                                    Saved Card
+                                </label>
+
+                                <select id="savedCard">
+
+                                    <option value="">
+                                        Use a new card
+                                    </option>
+
+                                    @foreach (var card in Model.SavedPaymentMethods)
+                                    {
+                                        var maskedNumber =
+                                            $"•••• •••• •••• {card.CardLast4}";
+
+                                        var expiry =
+                                            card.ExpiryMonth.HasValue &&
+                                            card.ExpiryYear.HasValue
+                                                ? $"{card.ExpiryMonth:00} / {card.ExpiryYear % 100:00}"
+                                                : "";
+
+                                        <option value="@card.CustomerPaymentMethodID"
+                                                data-cardholder="@card.CardholderName"
+                                                data-last4="@card.CardLast4"
+                                                data-expiry="@expiry"
+                                                data-payment-method="@card.PaymentMethodID">
+
+                                            @card.MethodName — @maskedNumber
+
+                                        </option>
+                                    }
+
+                                </select>
+
+                            </div>
+                        }
+
+                        <div class="field">
+
+                            <label>
+                                Cardholder Name
+                            </label>
+
+                            <input type="text"
+                                   asp-for="CardholderName"
+                                   id="cardholderName"
+                                   placeholder="John Smith" />
+
+                        </div>
+
+                        <div class="field">
+
+                            <label>
+                                Card Number
+                            </label>
+
+                            <input type="text"
+                                   asp-for="CardNumber"
+                                   id="cardNumber"
+                                   placeholder="4000 1234 5678 9010" />
+
+                        </div>
+
+                        <div class="field-row">
+
+                            <div class="field">
+
+                                <label>
+                                    Expiry Date
+                                </label>
+
+                                <input type="text"
+                                       asp-for="ExpiryDate"
+                                       id="expiryDate"
+                                       placeholder="MM / YY" />
+
+                            </div>
+
+                            <div class="field">
+
+                                <label>
+                                    CVC
+                                </label>
+
+                                <input type="text"
+                                       asp-for="Cvc"
+                                       id="cvc"
+                                       placeholder="CVC" />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="cashMessage"
+                         class="empty-note"
+                         style="display:none;margin-bottom:18px;">
+
+                        Payment will be made in cash when you collect your order.
+
+                    </div>
+
+                    <button type="submit"
+                            class="btn-green btn-block">
+
+                        Authorize Payment &amp; Generate Receipt
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script>
+
+        const paymentMethod =
+            document.getElementById("paymentMethod");
+
+        const savedCard =
+            document.getElementById("savedCard");
+
+        const cardFields =
+            document.getElementById("cardFields");
+
+        const cashMessage =
+            document.getElementById("cashMessage");
+
+        const cardholderName =
+            document.getElementById("cardholderName");
+
+        const cardNumber =
+            document.getElementById("cardNumber");
+
+        const expiryDate =
+            document.getElementById("expiryDate");
+
+        const cvc =
+            document.getElementById("cvc");
+
+
+        function loadSavedCard() {
+
+            if (!savedCard) {
+                return;
+            }
+
+            const selectedOption =
+                savedCard.options[savedCard.selectedIndex];
+
+            if (!selectedOption ||
+                !selectedOption.value) {
+
+                cardholderName.value = "";
+                cardNumber.value = "";
+                expiryDate.value = "";
+                cvc.value = "";
+
+                cardNumber.placeholder =
+                    "4000 1234 5678 9010";
+
+                return;
+            }
+
+            cardholderName.value =
+                selectedOption.dataset.cardholder || "";
+
+            const last4 =
+                selectedOption.dataset.last4 || "";
+
+            cardNumber.value =
+                last4
+                    ? `•••• •••• •••• ${last4}`
+                    : "";
+
+            expiryDate.value =
+                selectedOption.dataset.expiry || "";
+
+            // CVC is never stored with a saved card.
+            cvc.value = "";
+
+            cardNumber.placeholder =
+                "Saved card ending in " + last4;
+        }
+
+
+        function updatePaymentFields() {
+
+            if (!paymentMethod) {
+                return;
+            }
+
+            const selectedText =
+                paymentMethod
+                    .options[paymentMethod.selectedIndex]
+                    .text
+                    .toLowerCase();
+
+            const isCash =
+                selectedText.includes("cash");
+
+            const isCard =
+                selectedText.includes("card");
+
+
+            if (isCash) {
+
+                cardFields.style.display = "none";
+                cashMessage.style.display = "block";
+
+                cardholderName.required = false;
+                cardNumber.required = false;
+                expiryDate.required = false;
+                cvc.required = false;
+
+            }
+            else if (isCard) {
+
+                cardFields.style.display = "block";
+                cashMessage.style.display = "none";
+
+                cardholderName.required = true;
+                cardNumber.required = true;
+                expiryDate.required = true;
+                cvc.required = true;
+
+            }
+            else {
+
+                cardFields.style.display = "none";
+                cashMessage.style.display = "none";
+
+                cardholderName.required = false;
+                cardNumber.required = false;
+                expiryDate.required = false;
+                cvc.required = false;
+
+            }
+
+        }
+
+
+        if (savedCard) {
+
+            savedCard.addEventListener(
+                "change",
+                loadSavedCard
+            );
+
+        }
+
+
+        if (paymentMethod) {
+
+            paymentMethod.addEventListener(
+                "change",
+                updatePaymentFields
+            );
+
+            updatePaymentFields();
+
+        }
+
+    </script>
+
+}

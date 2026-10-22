@@ -1,0 +1,138 @@
+﻿<div id="add-menu-item"
+     class="portal-card"
+     style="margin-top:40px;">
+
+    <div style="margin-bottom:24px;">
+
+        <span class="eyebrow">
+            Menu Administration
+        </span>
+
+        <h2>
+            Add Menu Item
+        </h2>
+
+        <p class="muted">
+            Add a new item to the customer menu.
+        </p>
+
+    </div>
+
+
+    <form asp-controller="Menu"
+          asp-action="CreateForm"
+          method="post"
+          enctype="multipart/form-data">
+
+        <div class="field-row">
+
+            <div class="field">
+
+                <label>
+                    Item Name
+                </label>
+
+                <input name="ItemName"
+                       placeholder="e.g. Krabby Patty"
+                       required />
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Category
+                </label>
+
+                <input name="Category"
+                       placeholder="e.g. Burgers"
+                       required />
+
+            </div>
+
+        </div>
+
+
+        <div class="field-row">
+
+            <div class="field">
+
+                <label>
+                    Price
+                </label>
+
+                <input name="Price"
+                       type="number"
+                       step="0.01"
+                       min="0"
+                       placeholder="0.00"
+                       required />
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Product Image
+                </label>
+
+                <input type="file"
+                       name="image"
+                       accept=".jpg,.jpeg,.png,.webp" />
+
+                <small class="muted">
+                    JPG, JPEG, PNG or WEBP — maximum 5 MB.
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Description
+            </label>
+
+            <textarea name="Description"
+                      placeholder="Describe the menu item..."></textarea>
+
+        </div>
+
+
+        <label class="addon"
+               style="margin-bottom:18px;">
+
+            <span>
+
+                <strong>
+                    Available
+                </strong>
+
+                <small>
+                    Show this item as in stock on the customer menu.
+                </small>
+
+            </span>
+
+            <input type="checkbox"
+                   name="Availability"
+                   value="true"
+                   checked />
+
+        </label>
+
+
+        <button class="btn-blue"
+                type="submit">
+
+            Create Menu Item
+
+        </button>
+
+    </form>
+
+</div>

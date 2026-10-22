@@ -1,0 +1,81 @@
+﻿@model IEnumerable<CrustyCrab.Models.ApiOrder>
+
+@{
+    ViewData["Title"] = "Live Tracker";
+}
+
+<div class="page-head">
+
+    <div class="page-head-inner">
+
+        <div>
+            <span class="eyebrow">
+                Order Tracking
+            </span>
+
+            <h1>
+                Live Tracker
+            </h1>
+
+            <p class="muted">
+                Follow the progress of your orders.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+@if (ViewData["ApiError"] is string error)
+{
+    <div class="page-head">
+        <div class="api-error">
+            @error
+        </div>
+    </div>
+}
+
+<div class="portal-wrap">
+
+    @if (!Model.Any())
+    {
+        <div class="empty-note">
+            You don't have any orders yet.
+        </div>
+    }
+    else
+    {
+        foreach (var order in Model)
+        {
+            <div class="portal-card"
+                 style="margin-bottom:20px;">
+
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px;">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            Order #@order.OrderID
+                        </span>
+
+                        <h2>
+                            @order.OrderStatus
+                        </h2>
+
+                    </div>
+
+                    <span class="location-chip">
+                        @order.OrderDate.ToString("dd MMM yyyy HH:mm")
+                    </span>
+
+                </div>
+
+                <p class="muted">
+                    Total: R @order.TotalAmount.ToString("0.00")
+                </p>
+
+            </div>
+        }
+    }
+
+</div>

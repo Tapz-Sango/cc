@@ -1,0 +1,293 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - The Crusty Crab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+          rel="stylesheet" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+</head>
+
+<body>
+    @{
+        var userId = Context.Session.GetInt32("UserId");
+        var role = Context.Session.GetString("Role");
+
+        var isLoggedIn = userId.HasValue;
+
+        var isAdmin = string.Equals(
+            role, "Admin", StringComparison.OrdinalIgnoreCase);
+
+        var isCustomer = string.Equals(
+            role, "Customer", StringComparison.OrdinalIgnoreCase);
+    }
+
+    <div class="topbar">
+        <div class="topbar-inner wide">
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="brand">
+
+                <span class="brand-icon">
+                    <img src="~/images/logo.png"
+                         alt="The Crusty Crab logo" />
+                </span>
+
+                <span>
+                    <span class="brand-name" style="display:block">
+                        The Crusty Crab
+                    </span>
+
+                    <span class="brand-sub" style="display:block">
+                        Montgomery Park &bull; Randburg
+                    </span>
+                </span>
+            </a>
+
+            <div class="pill-nav">
+
+                <a asp-controller="Home" asp-action="Index">
+                    Overview
+                </a>
+
+                <a asp-controller="Menu" asp-action="Index">
+                    Menu
+                </a>
+
+                @if (isCustomer)
+                {
+                    <a asp-controller="Cart" asp-action="Index">Cart</a>
+                    <a asp-controller="Checkout" asp-action="Index">Checkout</a>
+                    <a asp-controller="Kitchen" asp-action="Tracker">Live Tracker</a>
+                    <a asp-controller="Review" asp-action="Create">Feedback</a>
+                    <a asp-controller="Review" asp-action="MyReviews">My Reviews</a>
+                }
+
+                @if (isAdmin)
+                {
+                    <a asp-controller="Kitchen" asp-action="Kds">Kitchen KDS</a>
+                    <a asp-controller="Manager" asp-action="Portal">Manager Portal</a>
+                    <a asp-controller="AdminStaff" asp-action="Index">Staff &amp; Admin</a>
+                }
+
+            </div>
+
+            <div class="account-area">
+
+                @if (!isLoggedIn)
+                {
+                    <div class="account-dropdown">
+
+                       
+<button type="button"
+        class="account-trigger"
+        id="accountToggle"
+        aria-expanded="false"
+        aria-controls="accountMenu"
+        aria-label="Open account menu"
+        title="Account">
+
+    <svg xmlns="http://www.w3.org/2000/svg"
+         width="24"
+         height="24"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="1.8"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         aria-hidden="true">
+        <circle cx="12" cy="8" r="4"></circle>
+        <path d="M5 21v-2a7 7 0 0 1 14 0v2"></path>
+    </svg>
+
+    <span>Account</span>
+</button>
+
+
+                        <div class="account-menu"
+                             id="accountMenu"
+                             style="display:none;">
+
+                            <div class="account-menu-heading">
+                                <strong>Welcome to The Crusty Crab</strong>
+                                <span>Sign in to get started.</span>
+                            </div>
+
+                            <a asp-controller="Auth"
+                               asp-action="Login"
+                               class="account-menu-primary">
+                                Log In
+                            </a>
+
+                            <div class="account-staff">
+                                <span>Are you a staff member?</span>
+
+                                <a asp-controller="Manager"
+                                   asp-action="Login">
+                                    Staff login here
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @if (isCustomer)
+                    {
+                        <a asp-controller="Customer"
+                           asp-action="Index"
+                           class="btn-blue">
+                            My Account
+                        </a>
+                    }
+
+                    <form asp-controller="Auth"
+                          asp-action="Logout"
+                          method="post"
+                          style="margin:0;">
+                        <button type="submit" class="btn-blue">
+                            Logout
+                        </button>
+                    </form>
+                }
+
+            </div>
+        </div>
+    </div>
+
+    @RenderBody()
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+    @if (isCustomer)
+    {
+        <script>
+            const crabbyBubble = document.getElementById("crabbyBubble");
+            const crabbyChat = document.getElementById("crabbyChat");
+            const crabbyClose = document.getElementById("crabbyClose");
+            const crabbyMessage = document.getElementById("crabbyMessage");
+            const crabbyOptions = document.getElementById("crabbyOptions");
+
+            if (crabbyBubble && crabbyChat) {
+                crabbyBubble.addEventListener("click", () => {
+                    crabbyChat.style.display =
+                        crabbyChat.style.display === "none"
+                            ? "block"
+                            : "none";
+                });
+            }
+
+            if (crabbyClose && crabbyChat) {
+                crabbyClose.addEventListener("click", () => {
+                    crabbyChat.style.display = "none";
+                });
+            }
+
+            async function askCrabbyBot(optionId) {
+                if (!crabbyMessage || !crabbyOptions) return;
+
+                try {
+                    const response = await fetch(
+                        '@Url.Action("Respond", "CrabbyBot")',
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({ optionId: optionId })
+                        }
+                    );
+
+                    if (!response.ok) {
+                        crabbyMessage.textContent =
+                            "CrabbyBot is unavailable right now.";
+                        crabbyOptions.innerHTML = "";
+                        return;
+                    }
+
+                    const data = await response.json();
+
+                    crabbyMessage.textContent = data.message;
+                    crabbyOptions.innerHTML = "";
+
+                    data.options.forEach(option => {
+                        const button = document.createElement("button");
+
+                        button.type = "button";
+                        button.className = "crabby-option";
+                        button.textContent = option.text;
+
+                        button.addEventListener(
+                            "click",
+                            () => askCrabbyBot(option.id)
+                        );
+
+                        crabbyOptions.appendChild(button);
+                    });
+                }
+                catch {
+                    crabbyMessage.textContent =
+                        "CrabbyBot is unavailable right now.";
+                    crabbyOptions.innerHTML = "";
+                }
+            }
+
+            if (crabbyMessage && crabbyOptions) {
+                askCrabbyBot("start");
+            }
+        </script>
+    }
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        (() => {
+            const toggle = document.getElementById("accountToggle");
+            const menu = document.getElementById("accountMenu");
+
+            if (!toggle || !menu) return;
+
+            function closeAccountMenu() {
+                menu.style.display = "none";
+                toggle.setAttribute("aria-expanded", "false");
+            }
+
+            toggle.addEventListener("click", (event) => {
+                event.stopPropagation();
+
+                const isOpen = menu.style.display !== "none";
+
+                menu.style.display = isOpen ? "none" : "block";
+                toggle.setAttribute("aria-expanded", String(!isOpen));
+            });
+
+            menu.addEventListener("click", (event) => {
+                event.stopPropagation();
+            });
+
+            document.addEventListener("click", closeAccountMenu);
+
+            document.addEventListener("keydown", (event) => {
+                if (event.key === "Escape") {
+                    closeAccountMenu();
+                }
+            });
+        })();
+    </script>
+
+</body>
+</html>

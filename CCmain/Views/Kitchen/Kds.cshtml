@@ -1,0 +1,41 @@
+﻿@model IEnumerable<CrustyCrab.Models.OrderViewModel>
+
+@{
+    ViewData["Title"] = "Kitchen KDS";
+}
+
+<div class="kds-wrap">
+    <div class="kds-head">
+        <div>
+            <span class="eyebrow">Kitchen &amp; Operations Suite</span>
+            <h1>Live Kitchen Display System</h1>
+        </div>
+        <span class="live">Live Feed Active</span>
+    </div>
+    @if (ViewData["ApiError"] is string kdsError)
+    {
+        <div class="api-error">@kdsError</div>
+    }
+    <div class="kds-grid">
+        @foreach (var order in Model)
+        {
+            var spiceClass = order.SpiceLevel.Contains("Hot") ? "spice-hot" : order.SpiceLevel.Contains("Mild") ? "spice-mild" : "spice-medium";
+            <div class="ticket">
+                <div class="ticket-head">
+                    <span class="ticket-id">@order.CustomerName<br />@order.OrderId.ToString("D3")</span>
+                    <span class="spice-badge mono @spiceClass">@order.SpiceLevel</span>
+                </div>
+                <div class="ticket-item">@order.ItemName</div>
+                @foreach (var addon in order.Addons)
+                {
+                    <div class="ticket-addon">+ @addon</div>
+                }
+                <div class="ticket-time mono">Ordered: @order.TimeOrdered (@order.FulfillmentMethod)</div>
+                <form asp-action="MarkReady" method="post">
+                    <input type="hidden" name="orderId" value="@order.OrderId" />
+                    <button type="submit" class="btn-green">Mark Ready &amp; Notify (US-07)</button>
+                </form>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">CrustyCrab</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Onboarding / Welcome -->
+    <string name="app_tagline">Fresh seafood. Cajun flavour. Made your way.</string>
+    <string name="location">MONTGOMERY PARK • RANDBURG</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <!-- Home -->
+    <string name="welcome_message">Welcome, %1$s!</string>
+    <string name="welcome_subtitle">Ready for some fresh Cajun seafood today?</string>
+    <string name="home_no_active_orders">No Active Orders</string>
+    <string name="home_no_active_orders_sub">Place an order to track it live</string>
+    <string name="home_order_number">Order #%1$d</string>
+    <string name="home_order_summary">%1$d item(s) • R%2$d</string>
+
+    <!-- Account Profile Strings -->
+    <string name="profile_name">James Bond</string>
+    <string name="profile_email">james@crustycrab.co.za</string>
+    <string name="profile_initials">JB</string>
+    <string name="profile_orders_count">8</string>
+    <string name="profile_favorites_count">4</string>
+    <string name="profile_reviews_count">6</string>
+
+    <!-- Menu -->
+    <string name="menu_header">Our Signature\nMenu</string>
+    <string name="menu_subtitle">Fresh seafood. Cajun flavour. Made your way.</string>
+    <string name="category_all">All Items</string>
+    <string name="category_boil_bags">Boil Bags</string>
+    <string name="category_starters">Starters</string>
+    <string name="menu_item_shrimp_title">Cajun Shrimp Boil</string>
+    <string name="menu_item_shrimp_desc">Shrimp, corn, potatoes and Cajun spices.</string>
+    <string name="menu_item_shrimp_price">R189</string>
+    <string name="menu_item_crab_title">Crab Feast</string>
+    <string name="menu_item_crab_desc">Crab, shrimp, corn and signature Cajun sauce.</string>
+    <string name="menu_item_crab_price">R249</string>
+    <string name="cart_label">Cart (%1$d)</string>
+
+    <!-- Account Menu -->
+    <string name="menu_order_history">Order History</string>
+    <string name="menu_favorites">Favorites</string>
+    <string name="menu_delivery_address">Delivery Address</string>
+    <string name="menu_payment_methods">Payment Methods</string>
+    <string name="menu_notifications">Notifications</string>
+    <string name="menu_help_support">Help &amp; Support</string>
+    <string name="menu_logout">Logout</string>
+
+    <!-- Login / Signup -->
+    <string name="login_title">Log In</string>
+    <string name="signup_title">Create Account</string>
+    <string name="email_label">EMAIL ADDRESS</string>
+    <string name="password_label">PASSWORD</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="signup_prompt">Don\'t have an account? \nSign Up</string>
+    <string name="login_prompt">Already have an account? \nLog In</string>
+
+    <!-- Cart screen -->
+    <string name="cart_title">Your Cart</string>
+    <string name="cart_empty">Your cart is empty.</string>
+    <string name="cart_total">Total: R%1$d</string>
+    <string name="cart_place_order">Place Order</string>
+    <string name="cart_placing_order">Placing…</string>
+    <string name="cart_remove_description">Remove item</string>
+    <string name="cart_plus_description">Increase quantity</string>
+    <string name="cart_minus_description">Decrease quantity</string>
+    <string name="cart_order_placed">Order placed! Order #%1$d</string>
+    <string name="cart_empty_toast">Cart is empty</string>
+    <string name="cart_not_ready">Cart not ready yet</string>
+
+    <!-- Tracker screen -->
+    <string name="tracker_title">Order Tracker</string>
+    <string name="tracker_empty">No orders yet.</string>
+    <string name="tracker_order_number">Order #%1$d</string>
+
+    <!-- Shared -->
+    <string name="login_required">Please log in</string>
+    <string name="price_format">R%1$d</string>
+    <string name="qty_format">x%1$d</string>
+
+    <!-- Bottom navigation labels -->
+    <string name="nav_home">Home</string>
+    <string name="nav_menu">Menu</string>
+    <string name="nav_cart">Cart</string>
+    <string name="nav_tracker">Tracker</string>
+    <string name="nav_account">Account</string>
+
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
+        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
+        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
+        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
+        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
+        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
+        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
+        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
+        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
+        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
+        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
+        bibendum, vel congue leo egestas.\n\n
+        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
+        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
+        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
+        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
+        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
+        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
+        est.\n\n
+        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
+        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
+        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
+        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
+        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
+        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
+        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
+        convallis.\n\n
+        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
+        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
+        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
+        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
+        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
+        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
+        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
+    </string>
+</resources>
