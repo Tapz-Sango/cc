@@ -1,0 +1,33 @@
+
+name: Build CrustyCrab MVC
+
+on:
+  push:
+    branches:
+      - MVC-front-end
+  pull_request:
+    branches:
+      - MVC-front-end
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '10.0.x'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore CrustyCrab.csproj
+
+      - name: Build
+        run: dotnet build CrustyCrab.csproj --configuration Release --no-restore

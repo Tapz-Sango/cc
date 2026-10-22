@@ -1,0 +1,97 @@
+﻿
+@model List<CrustyCrab.Models.ApiCustomerReview>
+
+@{
+    ViewData["Title"] = "My Reviews";
+}
+
+<div class="portal-wrap">
+    <div class="kds-head">
+        <div>
+            <span class="eyebrow">Your Account</span>
+            <h1>My Reviews</h1>
+            <p class="muted">See your feedback and replies from our team.</p>
+        </div>
+    </div>
+
+    @if (TempData["Error"] is string error)
+    {
+        <div class="api-error" style="margin-top:20px">@error</div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="portal-card" style="margin-top:24px">
+            <h3>No reviews yet</h3>
+            <p class="muted">Once you submit a review, it will appear here.</p>
+            <a asp-controller="Review"
+               asp-action="Create"
+               class="btn-blue">
+                Write a Review
+            </a>
+        </div>
+    }
+    else
+    {
+        <div style="display:grid; gap:20px; margin-top:24px">
+            @foreach (var review in Model.OrderByDescending(r => r.CreatedAt))
+            {
+                <div class="portal-card">
+                    <div class="kds-head">
+                        <div>
+                            <h3>Your Review</h3>
+                            <small class="muted">
+                                @review.CreatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")
+                            </small>
+                        </div>
+
+                        <div class="review-stars"
+                             aria-label="@review.Rating out of 5 stars">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <span class="@(i <= review.Rating ? "filled" : "empty")">★</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div style="margin-top:16px">
+                        <strong>Your feedback</strong>
+                        <p style="white-space:pre-wrap">@review.Comment</p>
+                    </div>
+
+                    <div style="margin-top:20px">
+                        @if (!string.IsNullOrWhiteSpace(review.AdminResponse))
+                        {
+                            <div class="success-note">
+                                <strong>Reply from our team</strong>
+
+                                @if (!string.IsNullOrWhiteSpace(review.AdminUsername))
+                                {
+                                    <p class="muted">Responded by @review.AdminUsername</p>
+                                }
+
+                                <p style="white-space:pre-wrap">@review.AdminResponse</p>
+
+                                @if (review.RespondedAt.HasValue)
+                                {
+                                    <small>
+                                        @review.RespondedAt.Value.ToLocalTime().ToString("dd MMM yyyy HH:mm")
+                                    </small>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="portal-card">
+                                <strong>Awaiting a reply</strong>
+                                <p class="muted">
+                                    Our team hasn't responded to this review yet.
+                                </p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

@@ -1,0 +1,108 @@
+﻿@model CrustyCrab.Models.MenuItem
+@{
+    ViewData["Title"] = "Review Your Item";
+}
+
+<div class="narrow stack-top">
+    <div class="card-panel" style="max-width:510px;margin:0 auto;">
+
+        <div class="studio-top">
+            <div>
+                <span class="chip-mono mono">Review Your Item</span>
+                <h2>@Model.Name</h2>
+            </div>
+
+            <div class="price-block">
+                <div class="price-label">Price</div>
+                <div class="price-value">
+                    R @Model.Price.ToString("0.00")
+                </div>
+            </div>
+        </div>
+
+        <form asp-controller="Checkout" asp-action="Index" method="get">
+
+            <input type="hidden" name="menuItemId" value="@Model.Id" />
+
+            <h6 class="section-label">
+                1. Select Spice &amp; Flavour Level
+            </h6>
+
+            <div class="opt-row">
+
+                <div class="t-cyan">
+                    <input type="radio"
+                           name="SpiceLevel"
+                           id="spiceMild"
+                           value="Mild">
+
+                    <label for="spiceMild">
+                        <strong>Mild</strong>
+                        <small>
+                            Gentle garlic butter with zero chilli kick
+                        </small>
+                    </label>
+                </div>
+
+                <div>
+                    <input type="radio"
+                           name="SpiceLevel"
+                           id="spiceMedium"
+                           value="Medium"
+                           checked>
+
+                    <label for="spiceMedium">
+                        <strong>Medium (Default)</strong>
+                        <small>
+                            Authentic Louisiana cajun spice blend
+                        </small>
+                    </label>
+                </div>
+
+                <div class="t-amber">
+                    <input type="radio"
+                           name="SpiceLevel"
+                           id="spiceHot"
+                           value="Extra Hot">
+
+                    <label for="spiceHot">
+                        <strong>Extra Hot</strong>
+                        <small>
+                            Fiery habanero infused cajun fire
+                        </small>
+                    </label>
+                </div>
+
+            </div>
+
+            <div class="studio-cta">
+                <button type="submit"
+                        class="btn-blue btn-block">
+                    Proceed to Checkout &rarr;
+                </button>
+            </div>
+
+        </form>
+
+        <form asp-controller="Cart"
+              asp-action="AddFromMenu"
+              method="post"
+              style="margin-top:10px;">
+
+            <input type="hidden"
+                   name="menuItemId"
+                   value="@Model.Id" />
+
+            <input type="hidden"
+                   name="quantity"
+                   value="1" />
+
+            <button type="submit"
+                    class="btn-ghost btn-block">
+                Add to Cart
+            </button>
+
+        </form>
+
+    </div>
+</div>

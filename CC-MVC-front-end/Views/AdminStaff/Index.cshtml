@@ -1,0 +1,70 @@
+@model CrustyCrab.Models.AdminStaffViewModel
+@{
+    ViewData["Title"] = "Staff Administration";
+}
+
+<div class="portal-wrap">
+    @if (TempData["Error"] is string error)
+    {
+        <div class="api-error">@error</div>
+    }
+    @if (TempData["Success"] is string success)
+    {
+        <div class="success-note">@success</div>
+    }
+    <div class="portal-grid">
+        <div class="portal-card">
+            <h3>Staff</h3>
+            @foreach (var staff in Model.Staff)
+            {
+                <div class="portal-card" style="margin-top:12px;">
+                    <form asp-action="UpdateStaffForm" method="post">
+                        <input type="hidden" name="id" value="@staff.StaffId" />
+                        <div class="field-row"><div class="field"><label>First Name</label><input name="FirstName" value="@staff.FirstName" required /></div><div class="field"><label>Last Name</label><input name="LastName" value="@staff.LastName" required /></div></div>
+                        <div class="field-row"><div class="field"><label>Role</label><input name="Role" value="@staff.Role" required /></div><div class="field"><label>Phone</label><input name="PhoneNumber" value="@staff.PhoneNumber" required /></div></div>
+                        <button class="btn-blue" type="submit">Save Staff</button>
+                    </form>
+                    <form asp-action="DeleteStaffForm" method="post" style="margin-top:10px;"><input type="hidden" name="id" value="@staff.StaffId" /><button class="stock-btn out" type="submit">Delete Staff</button></form>
+                </div>
+            }
+            <form asp-action="CreateStaffForm" method="post" style="margin-top:18px;">
+                <div class="field-row"><div class="field"><label>First Name</label><input name="FirstName" required /></div><div class="field"><label>Last Name</label><input name="LastName" required /></div></div>
+                <div class="field-row"><div class="field"><label>Role</label><input name="Role" required /></div><div class="field"><label>Phone</label><input name="PhoneNumber" required /></div></div>
+                <button class="btn-blue" type="submit">Create Staff</button>
+            </form>
+        </div>
+        <div class="portal-card">
+            <h3>Admin Users</h3>
+            @foreach (var admin in Model.Admins)
+            {
+                <div class="portal-card" style="margin-top:12px;">
+                    <form asp-action="UpdateAdminForm" method="post">
+                        <input type="hidden" name="id" value="@admin.AdminID" />
+                        <div class="field"><label>Username</label><input name="Username" value="@admin.Username" required /></div>
+                        <div class="field"><label>Email</label><input name="EmailAddress" type="email" value="@admin.EmailAddress" required /></div>
+                        <div class="field"><label>Staff ID</label><input name="StaffId" type="number" value="@admin.StaffId" /></div>
+                        <button class="btn-blue" type="submit">Save Admin</button>
+                    </form>
+                    <form asp-action="DeleteAdminForm" method="post" style="margin-top:10px;"><input type="hidden" name="id" value="@admin.AdminID" /><button class="stock-btn out" type="submit">Delete Admin</button></form>
+                </div>
+            }
+            <form asp-action="CreateAdminForm" method="post" style="margin-top:18px;">
+                <div class="field"><label>Username</label><input name="Username" required /></div>
+                <div class="field"><label>Email</label><input name="EmailAddress" type="email" required /></div>
+                <div class="field"><label>Password</label><input name="Password" type="password" required /></div>
+                <div class="field"><label>Staff ID</label><input name="StaffId" type="number" /></div>
+                <button class="btn-blue" type="submit">Create Admin</button>
+            </form>
+        </div>
+    </div>
+    <div class="portal-card" style="margin-top:24px;">
+        <h3>Customers</h3>
+        @foreach (var customer in Model.Customers)
+        {
+            <div class="stock-row">
+                <div><strong>@customer.FirstName @customer.LastName</strong><small>@customer.EmailAddress · @customer.PhoneNumber · Customer #@customer.CustomerID</small></div>
+                <form asp-controller="Customer" asp-action="DeleteForm" method="post"><input type="hidden" name="id" value="@customer.CustomerID" /><button class="stock-btn out" type="submit">Delete</button></form>
+            </div>
+        }
+    </div>
+</div>

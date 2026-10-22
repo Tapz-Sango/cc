@@ -1,0 +1,201 @@
+﻿@model CrustyCrab.Models.ManagerPortalViewModel
+
+@{
+    ViewData["Title"] = "Manager Portal";
+}
+
+<!-- PAGE HEADER -->
+<div class="page-head">
+    <div class="page-head-inner">
+        <div>
+            <span class="eyebrow">Restaurant Administration</span>
+
+            <h1>Manager Portal</h1>
+
+            <p class="muted">
+                Manage the menu, stock availability and restaurant operations.
+            </p>
+        </div>
+
+        <span class="location-chip mono">
+            Location: Montgomery Park
+        </span>
+    </div>
+</div>
+
+
+<!-- MESSAGES -->
+
+@if (ViewData["ApiError"] is string portalError)
+{
+    <div class="page-head">
+        <div class="api-error">
+            @portalError
+        </div>
+    </div>
+}
+
+@if (TempData["Error"] is string error)
+{
+    <div class="page-head">
+        <div class="api-error">
+            @error
+        </div>
+    </div>
+}
+
+@if (TempData["Success"] is string success)
+{
+    <div class="page-head">
+        <div class="success-note">
+            @success
+        </div>
+    </div>
+}
+
+
+<!-- PORTAL -->
+
+<div class="portal-wrap">
+
+    <!-- ANALYTICS -->
+
+    <div class="portal-grid">
+
+        <div class="portal-card">
+
+            <span class="eyebrow">
+                US-09
+            </span>
+
+            <h3>
+                Sales Analytics
+            </h3>
+
+            <div class="stat-row">
+
+                <div class="stat rev">
+
+                    <small>
+                        Today's Revenue
+                    </small>
+
+                    <strong>
+                        R @Model.TodaysRevenue.ToString(
+                            "N2",
+                            System.Globalization.CultureInfo.InvariantCulture)
+                    </strong>
+
+                </div>
+
+                <div class="stat">
+
+                    <small>
+                        Peak Order Time
+                    </small>
+
+                    <strong>
+                        @Model.PeakOrderTime
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="portal-card">
+
+            <span class="eyebrow">
+                Operations
+            </span>
+
+            <h3>
+                Staff Shift Planning
+            </h3>
+
+            <div class="staff-box">
+
+                <h5>
+                    Recommendation
+                </h5>
+
+                <p>
+                    @Model.StaffRecommendation
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MENU ADMINISTRATION -->
+
+<div class="portal-card"
+     style="margin-top:40px;">
+
+    <div style="margin-bottom:24px;">
+
+        <span class="eyebrow">
+            Menu Administration
+        </span>
+
+        <h2>
+            Menu Management
+        </h2>
+
+        <p class="muted">
+            Add, edit, delete and manage availability of menu items.
+        </p>
+
+    </div>
+
+    <div style="display:flex;
+                gap:12px;
+                flex-wrap:wrap;">
+
+        <a asp-controller="Manager"
+           asp-action="MenuManagement"
+           class="btn-blue">
+
+            Manage Menu
+
+        </a>
+
+        <a asp-controller="Manager"
+           asp-action="AddMenuItem"
+           class="btn-blue">
+
+            + Add Menu Item
+
+        </a>
+
+    </div>
+
+</div>
+<!-- CUSTOMER REVIEWS -->
+
+<div class="portal-card" style="margin-top:24px;">
+
+    <div style="margin-bottom:24px;">
+        <span class="eyebrow">
+            Customer Feedback
+        </span>
+
+        <h2>Review Management</h2>
+
+        <p class="muted">
+            Read customer ratings and comments, and respond to their feedback.
+        </p>
+    </div>
+
+    <a asp-controller="Review"
+       asp-action="Manage"
+       class="btn-blue">
+        Manage Customer Reviews
+    </a>
+
+</div>
+</div>
